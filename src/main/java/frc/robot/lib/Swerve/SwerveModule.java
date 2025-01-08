@@ -2,6 +2,7 @@
 
 package frc.robot.lib.Swerve;
 
+import static edu.wpi.first.units.Units.Degrees;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -87,7 +88,8 @@ public class SwerveModule {
      */
     public void setDesiredState(SwerveModuleState _state, boolean _enableSteer, boolean _enableDrive) {
         // Optimize the angle so the wheel will not rotate more than 90 deg
-        SwerveModuleState optimized = SwerveModuleState.optimize(_state, m_internalState.angle);
+        SwerveModuleState optimized = _state;//.optimize(_state, m_internalState.angle);
+        optimized.optimize(m_internalState.angle);
         
         if(_enableSteer){
             m_steerSetAngle_deg = optimized.angle.getDegrees(); // Get the angle in degrees that we want to set
@@ -136,6 +138,6 @@ public class SwerveModule {
     }
 
     public double getCancoderPos() {
-        return m_cancoder.getAbsolutePosition().getValue();
+        return m_cancoder.getAbsolutePosition().getValue().in(Degrees);
     }
 }

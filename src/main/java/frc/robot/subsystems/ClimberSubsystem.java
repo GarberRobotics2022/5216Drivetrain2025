@@ -4,17 +4,20 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
   
   // Motor Creation and Identification \\
-  CANSparkMax leftClimber = new CANSparkMax(51, MotorType.kBrushless);
-  CANSparkMax rightClimber = new CANSparkMax(52, MotorType.kBrushless);
+  SparkMax leftClimber = new SparkMax(51, MotorType.kBrushless);
+  SparkMax rightClimber = new SparkMax(52, MotorType.kBrushless);
 
   // Climber Limits \\
   private final double lowerLimit = 0.0;
@@ -31,13 +34,17 @@ public class ClimberSubsystem extends SubsystemBase {
     leftClimber.getEncoder().setPosition(0);
     rightClimber.getEncoder().setPosition(0);
 
-    // Climber Inversion \\
-    leftClimber.setInverted(true);
-    rightClimber.setInverted(false);
+    // Climber config \\
+    SparkMaxConfig leftConfig = new SparkMaxConfig();
+    leftConfig.idleMode(IdleMode.kBrake);
+    leftConfig.inverted(true);
 
-    // Climber Mode \\
-    leftClimber.setIdleMode(IdleMode.kBrake);
-    rightClimber.setIdleMode(IdleMode.kBrake);
+    SparkMaxConfig rightConfig = new SparkMaxConfig();
+    rightConfig.idleMode(IdleMode.kBrake);
+    rightConfig.inverted(false);
+
+    leftClimber.configure(leftConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
+    rightClimber.configure(rightConfig, ResetMode.kNoResetSafeParameters, PersistMode.kNoPersistParameters);
   }
 
   // Climber Control

@@ -8,12 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import frc.robot.Autons.OneNoteAuton;
-import frc.robot.Autons.ThreeNoteLeftAuton;
-import frc.robot.Autons.ThreeNoteRightAuton;
-import frc.robot.Autons.TwoNoteCenterAuton;
-import frc.robot.Autons.TwoNoteLeftAuton;
-import frc.robot.Autons.TwoNoteRightAuton;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.ArmMoveToPos;
 import frc.robot.commands.Climber.ClimberDefaultCommand;
@@ -118,15 +112,10 @@ public class RobotContainer {
     configureBindings();
 
     // Set auto chooser stuff
-    autoChooser.setDefaultOption("One note", new OneNoteAuton(m_driveSubsystem, m_IntakeSubsystem, m_armSubsystem));
-    autoChooser.addOption("Two note left", new TwoNoteLeftAuton(m_driveSubsystem, m_IntakeSubsystem, m_armSubsystem));
-    autoChooser.addOption("Two note center", new TwoNoteCenterAuton(m_driveSubsystem, m_IntakeSubsystem, m_armSubsystem));
-    autoChooser.addOption("Two note right", new TwoNoteRightAuton(m_driveSubsystem, m_IntakeSubsystem, m_armSubsystem));
-    autoChooser.addOption("Three note left", new ThreeNoteLeftAuton(m_driveSubsystem, m_IntakeSubsystem, m_armSubsystem));
-    autoChooser.addOption("Three note right", new ThreeNoteRightAuton(m_driveSubsystem, m_IntakeSubsystem, m_armSubsystem));
+    
 
     // Put auto chooser on dashboard
-    SmartDashboard.putData("Autonomous Play", autoChooser);
+    // SmartDashboard.putData("Autonomous Play", autoChooser);
   }
 
   /**
