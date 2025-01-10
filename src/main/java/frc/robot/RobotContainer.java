@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import frc.robot.Autons.CenterSimpleAuton;
 import frc.robot.commands.ArmDefaultCommand;
 import frc.robot.commands.ArmMoveToPos;
 import frc.robot.commands.Climber.ClimberDefaultCommand;
@@ -112,10 +113,10 @@ public class RobotContainer {
     configureBindings();
 
     // Set auto chooser stuff
-    
+    autoChooser.setDefaultOption("Center Simple Auton", new CenterSimpleAuton(m_driveSubsystem));
 
     // Put auto chooser on dashboard
-    // SmartDashboard.putData("Autonomous Play", autoChooser);
+    SmartDashboard.putData("Autonomous Play", autoChooser);
   }
 
   /**

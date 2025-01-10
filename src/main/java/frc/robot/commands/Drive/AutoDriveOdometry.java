@@ -30,12 +30,12 @@ public class AutoDriveOdometry extends Command {
    * @param xPos The desired x position in inches
    * @param yPos The desired y position in inches
    * @param rotation The desired rotation in degrees
-   * @param _speed  The speed in MPS to drive at.
+   * @param _speed  The speed in inches per second to drive at.
    */
   public AutoDriveOdometry(DriveSubsystem _drive, double xPos, double yPos, double rotation, double _speed) {
     m_drive = _drive;
     m_poseDesired = new Pose2d(Units.inchesToMeters(xPos), Units.inchesToMeters(yPos), new Rotation2d(Units.degreesToRadians(rotation)));
-    m_driveSpeed = _speed;
+    m_driveSpeed = _speed * 39.3701;
     addRequirements(m_drive);// here to declare subsystem dependencies.
   }
 
