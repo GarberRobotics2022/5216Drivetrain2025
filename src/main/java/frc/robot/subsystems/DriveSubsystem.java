@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
@@ -90,6 +91,25 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetGyro() {
     m_robotDrive.resetYaw();
+  }
+
+  public void setGyro(double degrees) {
+    m_robotDrive.setYaw(degrees);
+}
+
+  /** Sets the new position in inches */
+  public void setPos(Pose2d newPos) {
+      m_robotDrive.setPos(newPos);
+  }
+
+  /**
+   * Sets the new position in inches
+   * 
+   * @param newX The new X position in inches
+   * @param newY The new Y position in inches
+   */
+  public void setPos(double newX, double newY) {
+      m_robotDrive.setPos(newX, newY);
   }
 
   public void stopMotors() {

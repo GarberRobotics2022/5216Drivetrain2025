@@ -183,6 +183,26 @@ public class SwerveDrive {
     public void resetPose(){
         m_odometry.resetPosition(m_pigeon2.getRotation2d(), getSwervePositions(), new Pose2d(0,0,new Rotation2d()));
     }
+
+    public void setYaw(double degrees) {
+        m_pigeon2.setYaw(degrees);
+    }
+
+    /** Sets the new position in inches */
+    public void setPos(Pose2d newPos) {
+        m_odometry.resetPosition(m_pigeon2.getRotation2d(), getSwervePositions(), newPos);
+    }
+
+    /**
+     * Sets the new position in inches
+     * 
+     * @param newX The new X position in inches
+     * @param newY The new Y position in inches
+     */
+    public void setPos(double newX, double newY) {
+        m_odometry.resetPosition(m_pigeon2.getRotation2d(), getSwervePositions(), new Pose2d(newX, newY, new Rotation2d()));
+    }
+
     public Pose2d getPoseMeters() {
         return m_odometry.getPoseMeters();
     }
