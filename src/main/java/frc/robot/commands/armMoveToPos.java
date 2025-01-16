@@ -14,7 +14,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 /* armMoveToPos Creation */
 
-public class ArmMoveToPos extends Command {
+public class armMoveToPos extends Command {
 
   ArmSubsystem _armSubsystem; // The arm subsystem.
   EArmPos _armPos; // The requested arm position to be set.
@@ -30,7 +30,7 @@ public class ArmMoveToPos extends Command {
    * @param m_armSubsystem The arm subsystem. (Requirement)
    * @param m_armPos The arm position the arm will be set to.
    */
-  public ArmMoveToPos(ArmSubsystem m_armSubsystem, EArmPos m_armPos) {
+  public armMoveToPos(ArmSubsystem m_armSubsystem, EArmPos m_armPos) {
     _armSubsystem = m_armSubsystem;
     _armPos = m_armPos;
     // addRequirements(_armSubsystem);
@@ -43,7 +43,7 @@ public class ArmMoveToPos extends Command {
    * @param m_armPos The arm position the arm will be set to.
    * @param _armTimeout The amount of seconds to wait before moving on
    */
-  public ArmMoveToPos(ArmSubsystem m_armSubsystem, EArmPos m_armPos, double _armTimout) {
+  public armMoveToPos(ArmSubsystem m_armSubsystem, EArmPos m_armPos, double _armTimout) {
     _armSubsystem = m_armSubsystem;
     _armPos = m_armPos;
     armTimeout = _armTimout;

@@ -12,7 +12,7 @@ import frc.robot.RobotContainer;
 import frc.robot.lib.EArmPos;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class ArmDefaultCommand extends Command {
+public class armDefaultCommand extends Command {
 
   ArmSubsystem m_armSubsystem;
   // Timer timer = new Timer();
@@ -29,7 +29,7 @@ public class ArmDefaultCommand extends Command {
   // double currentSetpoint = m_armSubsystem.floorPosition;
 
   /** Creates a new ExtenderDefaultCommand. */
-  public ArmDefaultCommand(ArmSubsystem _armSubsystem) {
+  public armDefaultCommand(ArmSubsystem _armSubsystem) {
     m_armSubsystem = _armSubsystem;
     addRequirements(m_armSubsystem);
   }

@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import frc.robot.Autons.CenterSimpleAuton;
-import frc.robot.commands.ArmDefaultCommand;
-import frc.robot.commands.ArmMoveToPos;
+import frc.robot.commands.armDefaultCommand;
+import frc.robot.commands.armMoveToPos;
 import frc.robot.commands.Climber.ClimberDefaultCommand;
 import frc.robot.commands.Climber.LeftClimberCommand;
 import frc.robot.commands.Climber.RightClimberCommand;
@@ -53,7 +53,7 @@ public class RobotContainer {
       m_driveSubsystem);
   
   public static ArmSubsystem m_armSubsystem = new ArmSubsystem();
-  private final ArmDefaultCommand m_armDefaultCommand = new ArmDefaultCommand(m_armSubsystem);
+  private final armDefaultCommand m_armDefaultCommand = new armDefaultCommand(m_armSubsystem);
 
   private static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ClimberDefaultCommand m_climberDefaultCommand = new ClimberDefaultCommand(m_climberSubsystem);
@@ -138,10 +138,10 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new LeftClimberCommand(m_climberSubsystem, 0.85));
     m_driverController.rightTrigger().whileTrue(new RightClimberCommand(m_climberSubsystem, 0.85));
 
-    m_operatorController.a().onTrue(new ArmMoveToPos(m_armSubsystem, EArmPos.FLOOR_POS));
-    m_operatorController.b().onTrue(new ArmMoveToPos(m_armSubsystem, EArmPos.SPEAKER_POS));
-    m_operatorController.y().onTrue(new ArmMoveToPos(m_armSubsystem, EArmPos.AMP_POS));
-    m_operatorController.x().onTrue(new ArmMoveToPos(m_armSubsystem, EArmPos.HALFWAY_POS));
+    m_operatorController.a().onTrue(new armMoveToPos(m_armSubsystem, EArmPos.FLOOR_POS));
+    m_operatorController.b().onTrue(new armMoveToPos(m_armSubsystem, EArmPos.SPEAKER_POS));
+    m_operatorController.y().onTrue(new armMoveToPos(m_armSubsystem, EArmPos.AMP_POS));
+    m_operatorController.x().onTrue(new armMoveToPos(m_armSubsystem, EArmPos.HALFWAY_POS));
 
     m_operatorController.rightTrigger().whileTrue(new ShootCommand(m_IntakeSubsystem));
     m_operatorController.rightBumper().whileTrue(new IntakeReverseCommand(m_IntakeSubsystem));
