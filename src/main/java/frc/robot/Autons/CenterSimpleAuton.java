@@ -13,7 +13,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CenterSimpleAuton extends SequentialCommandGroup {
-  DriveSubsystem m_DriveSubsystem;
+  DriveSubsystem m_DriveSubsystem; 
   /** Creates a new CenterSimpleAuton. */
   public CenterSimpleAuton(DriveSubsystem _DriveSubsystem) {
     // Add your commands in the addCommands() call, e.g.
