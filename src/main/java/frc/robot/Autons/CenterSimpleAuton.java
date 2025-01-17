@@ -6,6 +6,7 @@ package frc.robot.Autons;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Drive.AutoDriveOdometry;
+import frc.robot.commands.Drive.DriveToApriltag;
 import frc.robot.commands.Drive.ResetGyroCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -21,7 +22,8 @@ public class CenterSimpleAuton extends SequentialCommandGroup {
     m_DriveSubsystem = _DriveSubsystem;
     addCommands(
       new ResetGyroCommand(_DriveSubsystem),
-      new AutoDriveOdometry(_DriveSubsystem, 69, 0, 0, 12)
+      // new AutoDriveOdometry(_DriveSubsystem, 69, 0, 0, 12)
+      new DriveToApriltag(_DriveSubsystem, 1, 20, 0.5, 0)
     );
   }
 }
