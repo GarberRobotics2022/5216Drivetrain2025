@@ -5,6 +5,7 @@
 package frc.robot.commands.Drive;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.subsystems.DriveSubsystem;
@@ -14,15 +15,17 @@ public class DriveToApriltag extends Command {
   int targetTag;
   double targetArea;
   double speed;
-  double driveAngle;
+  double robotAngle;
   DriveSubsystem driveSubsystem;
   PIDController drivePID;
+  boolean isFinished;
+  double i;
   /** Creates a new DriveToApriltag. */
-  public DriveToApriltag(DriveSubsystem _driveSubsystem, int _targetTag, double _targetArea, double _speed, double _driveAngle) {
+  public DriveToApriltag(DriveSubsystem _driveSubsystem, int _targetTag, double _targetArea, double _speed, double _robotAngle) {
     targetTag = _targetTag;
     targetArea = _targetArea;
     speed = _speed;
-    driveAngle = _driveAngle;
+    robotAngle = _robotAngle;
     driveSubsystem = _driveSubsystem;
     addRequirements(driveSubsystem);
   }
@@ -31,19 +34,25 @@ public class DriveToApriltag extends Command {
   @Override
   public void initialize() {
     drivePID = new PIDController(1,0,0);
+    SmartDashboard.putNumber("tag stuff", 0);
+    isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (LimelightHelpers.getTagID("5216Limelight001") == targetTag) {
-      if ((LimelightHelpers.getTA("5216Limelight001") > targetArea++) || (LimelightHelpers.getTA("5216Limelight001") < targetArea--)) {
+    int t = (int)LimelightHelpers.getFiducialID("FrontLimelight");
+    SmartDashboard.putNumber("tag stuff", t);
+    if (t == targetTag) {
+      SmartDashboard.putNumber("tag stuff", t+1);
+      if ((LimelightHelpers.getTA("FrontLimelight") > targetArea + 0.1) || (LimelightHelpers.getTA("FrontLimelight") < targetArea - 0.1)) {
         drivePID.calculate(targetArea * speed);
       } else {
         speed = 0;
+        isFinished = false;
       }
       
-      driveSubsystem.drivePolarFieldCentric(LimelightHelpers.getTX("5216Limelight001"), driveAngle, speed, true, true);
+      driveSubsystem.drivePolarFieldCentric(SmartDashboard.getNumber("limelight/tx", 0), robotAngle, speed, true, true);
     }
   }
 
@@ -54,6 +63,6 @@ public class DriveToApriltag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isFinished;
   }
 }

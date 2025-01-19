@@ -892,9 +892,9 @@ public class LimelightHelpers {
     /////
     /////
 
-    public static int getTagID(String limelightName) {
-        return (int)getLimelightNTDouble(limelightName, "id");
-    }
+    // public static int getTagID(String limelightName) {
+    //     return (int)getLimelightNTDouble(limelightName, "id");
+    // }
     /**
      * Does the Limelight have a valid target?
      * @param limelightName Name of the Limelight camera ("" for default)

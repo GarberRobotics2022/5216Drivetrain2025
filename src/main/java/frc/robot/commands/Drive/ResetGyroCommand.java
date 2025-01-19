@@ -4,11 +4,13 @@
 
 package frc.robot.commands.Drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class ResetGyroCommand extends Command {
   DriveSubsystem m_driveSubsystem;
+  double i;
   /** Creates a new ResetGyroCommand. */
   public ResetGyroCommand(DriveSubsystem _driveSubsystem) {
     m_driveSubsystem = _driveSubsystem;
@@ -24,6 +26,7 @@ public class ResetGyroCommand extends Command {
   @Override
   public void execute() {
     m_driveSubsystem.resetGyro();
+    SmartDashboard.putNumber("I GOT TO RESET GYRO", i++);
   }
 
   // Called once the command ends or is interrupted.

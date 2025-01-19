@@ -21,9 +21,9 @@ public class CenterSimpleAuton extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     m_DriveSubsystem = _DriveSubsystem;
     addCommands(
-      new ResetGyroCommand(_DriveSubsystem),
+      new ResetGyroCommand(m_DriveSubsystem),
       // new AutoDriveOdometry(_DriveSubsystem, 69, 0, 0, 12)
-      new DriveToApriltag(_DriveSubsystem, 1, 20, 0.5, 0)
+      new DriveToApriltag(m_DriveSubsystem, 1, 4, 0.25, 0)
     );
   }
 }
