@@ -25,6 +25,8 @@ public class AutoDriveOdometry extends Command {
   Timer m_timer = new Timer();
   double m_rampUpTime = 1;
 
+  Pose2d startPose;
+
   /**
    * 
    * @param _drive  The drive subsystem for requirements
@@ -62,12 +64,14 @@ public class AutoDriveOdometry extends Command {
     
     m_timer.start();
     m_poseDesired = new Pose2d(m_poseDesired.getX(), m_poseDesired.getY() * GD.G_AllianceSign, new Rotation2d(m_poseDesired.getRotation().getRadians()));
+  
+    startPose = GD.G_RobotPose;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d trajectory = m_poseDesired.relativeTo(GD.G_RobotPose);               // Get a Trajectory to the desired Pose relative to the current pose.
+    Pose2d trajectory = m_poseDesired.relativeTo(startPose);               // Get a Trajectory to the desired Pose relative to the current pose.
     
     double robotAngle = m_poseDesired.getRotation().getDegrees();               // The angle of the robot from the desired pose angle
     double targetAngle = trajectory.getTranslation().getAngle().getDegrees();   // The drive angle to the new pose.

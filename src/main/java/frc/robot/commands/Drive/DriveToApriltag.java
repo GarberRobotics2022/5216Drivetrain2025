@@ -40,14 +40,18 @@ public class DriveToApriltag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int t = (int)LimelightHelpers.getFiducialID("");
+    int t = (int)LimelightHelpers.getFiducialID("limelight");
     SmartDashboard.putNumber("tag stuff", t);
     if (t == targetTag) {
-      if (LimelightHelpers.getTA("") > targetArea) {
+      if (LimelightHelpers.getTA("limelight") > targetArea) {
         isFinished = true;
         speed = 0;
       }
-      driveSubsystem.drivePolarFieldCentric(-LimelightHelpers.getTX(""), robotAngle, speed, true, true);
+      driveSubsystem.drivePolarFieldCentric(-LimelightHelpers.getTX("limelight"), robotAngle, speed, true, true);
+    } else {
+      speed = 0;
+      driveSubsystem.drivePolarFieldCentric(0, robotAngle, speed, true, true);
+      isFinished = true;
     }
   }
 

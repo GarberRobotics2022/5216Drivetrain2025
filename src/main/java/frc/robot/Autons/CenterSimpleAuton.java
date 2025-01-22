@@ -10,6 +10,7 @@ import frc.robot.commands.Drive.AutoDriveOdometry;
 import frc.robot.commands.Drive.AutoRotateCommand;
 import frc.robot.commands.Drive.DriveToApriltag;
 import frc.robot.commands.Drive.ResetGyroCommand;
+import frc.robot.commands.Drive.ResetOdometry;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -23,14 +24,14 @@ public class CenterSimpleAuton extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     m_DriveSubsystem = _DriveSubsystem;
     addCommands(
-      new ResetGyroCommand(m_DriveSubsystem),
+      new ResetOdometry(_DriveSubsystem), // Reset position
+      new ResetGyroCommand(m_DriveSubsystem), // Reset angle
       // new AutoDriveOdometry(_DriveSubsystem, 69, 0, 0, 12)
-      new DriveToApriltag(m_DriveSubsystem, 1, 26, 0.35, 0),
+      new DriveToApriltag(m_DriveSubsystem, 1, 26, 0.35, 0), // Go to april tag
       // new WaitCommand(1),
-      new AutoDriveOdometry(_DriveSubsystem, 35, 0, 0, 0.35),
-      new AutoRotateCommand(_DriveSubsystem, 90,1),
-      new AutoDriveOdometry(_DriveSubsystem, 35, 35, 90, 0.35)
-
+      new AutoDriveOdometry(_DriveSubsystem, 0, 0, 0, 0.01), // Go to origin
+      new AutoRotateCommand(_DriveSubsystem, 90,1), // Rotate to face processor
+      new AutoDriveOdometry(_DriveSubsystem, -35, 0, 90, 0.01) // Go to processor
     );
   }
 }

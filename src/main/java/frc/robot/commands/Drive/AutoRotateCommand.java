@@ -16,7 +16,10 @@ double robotAngle;
 double delay;
 Timer timer = new Timer();
 
-  /** Creates a new AutoRotateCommand. */
+  /** Creates a new AutoRotateCommand. 
+   * 
+   * @param _delay Delay in seconds until the NEXT command
+  */
   public AutoRotateCommand(DriveSubsystem _driveSubsystem, double _robotAngle, double _delay) {
     driveSubsystem = _driveSubsystem;
     robotAngle = _robotAngle;
