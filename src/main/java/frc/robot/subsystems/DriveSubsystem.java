@@ -13,7 +13,7 @@ import frc.robot.lib.EDriveMode;
 import frc.robot.lib.Swerve.SwerveDrive;
 
 public class DriveSubsystem extends SubsystemBase {
-  private SwerveDrive m_robotDrive;
+  public SwerveDrive m_robotDrive;
   public EDriveMode m_driveMode = EDriveMode.FIELD_CENTRIC;
 
   /** Creates a new DriveSubsystem. */

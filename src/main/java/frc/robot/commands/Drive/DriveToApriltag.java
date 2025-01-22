@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
+import frc.robot.lib.Swerve.SwerveDrive;
 import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -26,6 +27,7 @@ public class DriveToApriltag extends Command {
     targetArea = _targetArea;
     speed = _speed;
     robotAngle = _robotAngle;
+
     driveSubsystem = _driveSubsystem;
     addRequirements(driveSubsystem);
   }
@@ -47,7 +49,7 @@ public class DriveToApriltag extends Command {
         isFinished = true;
         speed = 0;
       }
-      driveSubsystem.drivePolarFieldCentric(-LimelightHelpers.getTX("limelight"), robotAngle, speed, true, true);
+      driveSubsystem.drivePolarFieldCentric(-LimelightHelpers.getTX("limelight") + driveSubsystem.m_robotDrive.getRobotYaw(), robotAngle, speed, true, true);
     } else {
       speed = 0;
       driveSubsystem.drivePolarFieldCentric(0, robotAngle, speed, true, true);
