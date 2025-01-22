@@ -5,7 +5,6 @@
 package frc.robot.Autons;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Drive.AutoDriveOdometry;
 import frc.robot.commands.Drive.AutoRotateCommand;
 import frc.robot.commands.Drive.DriveToApriltag;
@@ -27,7 +26,7 @@ public class CenterSimpleAuton extends SequentialCommandGroup {
       new ResetOdometry(_DriveSubsystem), // Reset position
       new ResetGyroCommand(m_DriveSubsystem), // Reset angle
       // new AutoDriveOdometry(_DriveSubsystem, 69, 0, 0, 12)
-      new DriveToApriltag(m_DriveSubsystem, 1, 26, 0.35, 0), // Go to reef
+      new DriveToApriltag(m_DriveSubsystem, 1, 26, 0.35, 0), // Go to april tag
       // new WaitCommand(1),
       new AutoDriveOdometry(_DriveSubsystem, 0, 0, 0, 0.01), // Go to origin
       new AutoRotateCommand(_DriveSubsystem, 90,1), // Rotate to face processor
