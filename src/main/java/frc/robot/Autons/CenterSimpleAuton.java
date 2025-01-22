@@ -27,11 +27,11 @@ public class CenterSimpleAuton extends SequentialCommandGroup {
       new ResetOdometry(_DriveSubsystem), // Reset position
       new ResetGyroCommand(m_DriveSubsystem), // Reset angle
       // new AutoDriveOdometry(_DriveSubsystem, 69, 0, 0, 12)
-      new DriveToApriltag(m_DriveSubsystem, 1, 26, 0.35, 0), // Go to april tag
+      new DriveToApriltag(m_DriveSubsystem, 1, 26, 0.35, 0), // Go to reef
       // new WaitCommand(1),
       new AutoDriveOdometry(_DriveSubsystem, 0, 0, 0, 0.01), // Go to origin
       new AutoRotateCommand(_DriveSubsystem, 90,1), // Rotate to face processor
-      new AutoDriveOdometry(_DriveSubsystem, -35, 0, 90, 0.01) // Go to processor
+      new DriveToApriltag(m_DriveSubsystem, 3, 26, 0.35, 0) // Go to processor
     );
   }
 }
