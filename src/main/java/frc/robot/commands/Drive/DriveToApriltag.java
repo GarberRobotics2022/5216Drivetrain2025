@@ -34,31 +34,28 @@ public class DriveToApriltag extends Command {
   @Override
   public void initialize() {
     drivePID = new PIDController(1,0,0);
-    SmartDashboard.putNumber("tag stuff", 0);
     isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int t = (int)LimelightHelpers.getFiducialID("FrontLimelight");
+    int t = (int)LimelightHelpers.getFiducialID("");
     SmartDashboard.putNumber("tag stuff", t);
     if (t == targetTag) {
-      SmartDashboard.putNumber("tag stuff", t+1);
-      if ((LimelightHelpers.getTA("FrontLimelight") > targetArea + 0.1) || (LimelightHelpers.getTA("FrontLimelight") < targetArea - 0.1)) {
-        drivePID.calculate(targetArea * speed);
-      } else {
+      if (LimelightHelpers.getTA("") > targetArea) {
+        isFinished = true;
         speed = 0;
-        isFinished = false;
       }
-      
-      driveSubsystem.drivePolarFieldCentric(SmartDashboard.getNumber("limelight/tx", 0), robotAngle, speed, true, true);
+      driveSubsystem.drivePolarFieldCentric(-LimelightHelpers.getTX(""), robotAngle, speed, true, true);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    driveSubsystem.stopMotors();
+  }
 
   // Returns true when the command should end.
   @Override

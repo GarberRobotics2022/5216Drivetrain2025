@@ -95,7 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void setGyro(double degrees) {
     m_robotDrive.setYaw(degrees);
-}
+  }
 
   /** Sets the new position in inches */
   public void setPos(Pose2d newPos) {

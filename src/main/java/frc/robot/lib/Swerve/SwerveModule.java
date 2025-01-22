@@ -3,6 +3,11 @@
 package frc.robot.lib.Swerve;
 
 import static edu.wpi.first.units.Units.Degrees;
+
+import java.io.ObjectInputFilter.Status;
+import java.util.jar.Attributes.Name;
+
+import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -17,6 +22,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.lib.k;
 
@@ -76,7 +82,10 @@ public class SwerveModule {
         CANcoderConfiguration cancoderConfigs = new CANcoderConfiguration();
         cancoderConfigs.MagnetSensor.MagnetOffset = _constants.m_CANcoderOffset_deg; // Set the CANCoder to the straight ahead value in rotations
         // cancoderConfigs.MagnetSensor.MagnetOffset = 0.0; // Uncomment to check actual offset. Comment the above line
-        m_cancoder.getConfigurator().apply(cancoderConfigs);
+
+        StatusCode status = m_cancoder.getConfigurator().apply(cancoderConfigs);
+
+        System.out.println(m_name + " cancoder status: " + status.toString());
 
         m_steerMotor.setPosition(m_cancoder.getPosition().getValueAsDouble() * k.STEER.GEAR_RATIO);
         

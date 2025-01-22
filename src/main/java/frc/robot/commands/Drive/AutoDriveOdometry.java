@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.lib.GD;
 import frc.robot.subsystems.DriveSubsystem;
@@ -78,7 +79,9 @@ public class AutoDriveOdometry extends Command {
     speed = MathUtil.clamp(speed, -m_driveSpeed, m_driveSpeed);                 // Clamp the speed to the maximum requested
     m_drive.drivePolarFieldCentric(targetAngle, robotAngle, speed, true, true); // Drive at a angle and speed and let the SwerveDrive move to the a robot angle.
     
-    
+    SmartDashboard.putNumber("autoTest/targetAngle", targetAngle);
+    SmartDashboard.putNumber("autoTest/robotAngle", robotAngle);
+    SmartDashboard.putNumber("autoTest/speed", speed);
   }
 
   private double rampUpValue(double _val, double rampTime_sec){

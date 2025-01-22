@@ -17,6 +17,7 @@ import frc.robot.commands.Climber.RightClimberCommand;
 import frc.robot.commands.Drive.CycleDriveModeCommand;
 import frc.robot.commands.Drive.DrivetrainDefaultCommand;
 import frc.robot.commands.Drive.ResetGyroCommand;
+import frc.robot.commands.Drive.SetGyroCommand;
 import frc.robot.lib.EArmPos;
 import frc.robot.lib.ISubsystem;
 import frc.robot.lib.k;
@@ -88,6 +89,8 @@ public class RobotContainer {
     SmartDashboard.putNumber("FR Pos", m_driveSubsystem.getCancoderPos(0));
     SmartDashboard.putNumber("BR Pos", m_driveSubsystem.getCancoderPos(2));
 
+    SmartDashboard.putNumber("Test", LimelightHelpers.getTX(""));
+
     Iterator<ISubsystem> it = subsystems.iterator();
     while (it.hasNext()) {
       it.next().updateDashboard(); // Comment this line out if you want ALL smartdashboard data to be stopped.
@@ -132,6 +135,7 @@ public class RobotContainer {
     
     m_driverController.y().onTrue(new CycleDriveModeCommand(m_driveSubsystem));
     m_driverController.x().onTrue(new ResetGyroCommand(m_driveSubsystem));
+    m_driverController.b().onTrue(new SetGyroCommand(m_driveSubsystem, 180));
 
     m_driverController.leftBumper().whileTrue(new LeftClimberCommand(m_climberSubsystem, -0.85));
     m_driverController.rightBumper().whileTrue(new RightClimberCommand(m_climberSubsystem, -0.85));

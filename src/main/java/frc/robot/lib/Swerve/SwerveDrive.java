@@ -73,12 +73,13 @@ public class SwerveDrive {
     public SwerveDrive() {
         // SwerveModuleConstantsCreator m_constantsCreator = new
         // SwerveModuleConstantsCreator();
+        
         SwerveModuleConstants m_frontRight = new SwerveModuleConstants(
                 "fr",
                 21, true,
                 22, true,
                 // TODO: change back to 1
-                1, -0.15673828125, // 0.025634765625
+                1, -0.12939453125, // 0.025634765625
                 k.DRIVEBASE.WHEEL_BASE_Y_m / 2.0, -k.DRIVEBASE.WHEEL_BASE_X_m / 2.0);
 
         SwerveModuleConstants m_frontLeft = new SwerveModuleConstants(
