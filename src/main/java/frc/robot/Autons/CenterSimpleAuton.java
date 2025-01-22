@@ -5,7 +5,6 @@
 package frc.robot.Autons;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Drive.AutoDriveOdometry;
 import frc.robot.commands.Drive.AutoRotateCommand;
 import frc.robot.commands.Drive.DriveToApriltag;
 import frc.robot.commands.Drive.ResetGyroCommand;
