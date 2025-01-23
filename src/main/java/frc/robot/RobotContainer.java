@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import frc.robot.Autons.CenterSimpleAuton;
+import frc.robot.Autons.TestingOdometry;
 import frc.robot.commands.armDefaultCommand;
 import frc.robot.commands.armMoveToPos;
 import frc.robot.commands.Climber.ClimberDefaultCommand;
@@ -117,6 +118,7 @@ public class RobotContainer {
 
     // Set auto chooser stuff
     autoChooser.setDefaultOption("Center Simple Auton", new CenterSimpleAuton(m_driveSubsystem));
+    autoChooser.addOption("Odometry test", new TestingOdometry(m_driveSubsystem));
 
     // Put auto chooser on dashboard
     SmartDashboard.putData("Autonomous Play", autoChooser);
