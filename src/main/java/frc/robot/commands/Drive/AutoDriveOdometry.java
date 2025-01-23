@@ -102,7 +102,7 @@ public class AutoDriveOdometry extends Command {
     Timer endTime = new Timer();
     endTime.restart();
     while(!endTime.hasElapsed(0.5)) {
-      m_drive.stopMotors();
+      m_drive.driveTotalStop();
     }
     m_drive.driveTotalStop();
   }
