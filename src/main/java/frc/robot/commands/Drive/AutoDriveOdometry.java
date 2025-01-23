@@ -71,12 +71,12 @@ public class AutoDriveOdometry extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d trajectory = m_poseDesired.relativeTo(startPose);               // Get a Trajectory to the desired Pose relative to the current pose.
+    Pose2d trajectory = m_poseDesired.relativeTo(startPose);                    // Get a Trajectory to the desired Pose relative to the current pose.
     
     double robotAngle = m_poseDesired.getRotation().getDegrees();               // The angle of the robot from the desired pose angle
     double targetAngle = trajectory.getTranslation().getAngle().getDegrees();   // The drive angle to the new pose.
-    double targetDistance = m_poseDesired.getTranslation().getDistance(GD.G_RobotPose.getTranslation());   // The drive distance to the new pose.
-    double speed = m_drivePID.calculate(0,targetDistance);          // Speed from PID based on 0 target and a changing distance as the robot moves at a target angle towards the destination. Output is speed MPS targetDistance is in Meters
+    double targetDistance = m_poseDesired.getTranslation().getDistance(trajectory.getTranslation());   // The drive distance to the new pose.
+    double speed = m_drivePID.calculate(0, targetDistance);          // Speed from PID based on 0 target and a changing distance as the robot moves at a target angle towards the destination. Output is speed MPS targetDistance is in Meters
                                                                                 // targetDistance is the new setpoint since we are moving to 0 for the target distance. This seams a little reversed but should work.
                                                                               
     speed = rampUpValue(speed, m_rampUpTime);                                   // Ramp up the speed so a sudden step in voltage does not happen
