@@ -25,6 +25,7 @@ public class AutoDriveOdometry extends Command {
   Timer m_timer = new Timer();
   double m_rampUpTime = 1;
 
+
   Pose2d startPose;
 
   /**
@@ -33,7 +34,7 @@ public class AutoDriveOdometry extends Command {
    * @param xPos The desired x position in inches
    * @param yPos The desired y position in inches
    * @param rotation The desired rotation in degrees
-   * @param _speed  The speed in meters per second to drive at.
+   * @param _speed  The speed in inches per second to drive at.
    */
   public AutoDriveOdometry(DriveSubsystem _drive, double xPos, double yPos, double rotation, double _speed) {
     m_drive = _drive;
@@ -62,6 +63,7 @@ public class AutoDriveOdometry extends Command {
     m_drivePID = new PIDController(3.0, 0.750, 0.0);
     m_drivePID.setTolerance(0.05,0.2);// 0.05M or 2 inches
     
+    m_timer.reset();
     m_timer.start();
     //m_poseDesired = new Pose2d(m_poseDesired.getX(), m_poseDesired.getY() * GD.G_AllianceSign, new Rotation2d(m_poseDesired.getRotation().getRadians()));
   
@@ -116,8 +118,9 @@ public class AutoDriveOdometry extends Command {
     endTime.restart();
     while(!endTime.hasElapsed(0.5)) {
       m_drive.stopMotors();
+      m_drive.stopMotors();
     }
-    m_drive.driveTotalStop();
+    SmartDashboard.putBoolean("autoTest/m_isFinished", m_isFinished);
   }
 
   // Returns true when the command should end.
