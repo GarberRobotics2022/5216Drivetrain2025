@@ -24,8 +24,6 @@ public class AutoDriveOdometry extends Command {
   boolean m_isFinished = false;
   Timer m_timer = new Timer();
   double m_rampUpTime = 1;
-  double tempTimeout;
-  Timer tempTimer = new Timer();
 
 
   Pose2d startPose;
@@ -38,11 +36,10 @@ public class AutoDriveOdometry extends Command {
    * @param rotation The desired rotation in degrees
    * @param _speed  The speed in inches per second to drive at.
    */
-  public AutoDriveOdometry(DriveSubsystem _drive, double xPos, double yPos, double rotation, double _speed, double _tempTimeout) {
+  public AutoDriveOdometry(DriveSubsystem _drive, double xPos, double yPos, double rotation, double _speed) {
     m_drive = _drive;
     m_poseDesired = new Pose2d(Units.inchesToMeters(xPos), Units.inchesToMeters(yPos), new Rotation2d(Units.degreesToRadians(rotation)));
     m_driveSpeed = _speed * 39.3701;
-    tempTimeout = _tempTimeout;
     addRequirements(m_drive);// here to declare subsystem dependencies.
   }
 
@@ -68,8 +65,6 @@ public class AutoDriveOdometry extends Command {
     
     m_timer.reset();
     m_timer.start();
-    tempTimer.reset();
-    tempTimer.start();
     m_poseDesired = new Pose2d(m_poseDesired.getX(), m_poseDesired.getY() * GD.G_AllianceSign, new Rotation2d(m_poseDesired.getRotation().getRadians()));
   
     startPose = GD.G_RobotPose;
@@ -121,7 +116,7 @@ public class AutoDriveOdometry extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_drivePID.atSetpoint() && tempTimer.hasElapsed(tempTimeout)){
+    if(m_drivePID.atSetpoint()){
       m_isFinished = true;
     }
     return m_isFinished;
