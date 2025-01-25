@@ -73,13 +73,17 @@ public class AutoDriveOdometry extends Command {
   private double distance(Pose2d target, Pose2d current) {
     Pose2d direction = new Pose2d(target.getX() - current.getX(), target.getY() - current.getY(), new Rotation2d());
     return direction.getX() + direction.getY();
+
+    // return Math.sqrt(Math.pow(target.getX() - current.getX(), 2) + Math.pow(target.getY() - current.getY(), 2));
   }
 
   private double getAngle(Pose2d target, Pose2d current) {
     double relativeX = target.getX() - current.getX();
     double relativeY = target.getY() - current.getY();
 
-    return Math.atan2(relativeY, relativeX) * (180 / Math.PI) * 2;
+    double angle = (Math.atan2(relativeY, relativeX) * (180 / Math.PI) * 2);
+
+    return Math.abs(Math.sin((angle/57.29578) * 90));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
