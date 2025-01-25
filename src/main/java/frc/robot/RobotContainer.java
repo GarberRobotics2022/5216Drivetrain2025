@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import frc.robot.Autons.CenterSimpleAuton;
+import frc.robot.Autons.RedCenterProcessorAuton;
+import frc.robot.Autons.RedRightCoralAuton;
 import frc.robot.Autons.TestingOdometry;
 import frc.robot.commands.armDefaultCommand;
 import frc.robot.commands.armMoveToPos;
@@ -117,7 +118,8 @@ public class RobotContainer {
     configureBindings();
 
     // Set auto chooser stuff
-    autoChooser.setDefaultOption("Center Simple Auton", new CenterSimpleAuton(m_driveSubsystem));
+    autoChooser.setDefaultOption("Center Simple Auton", new RedCenterProcessorAuton(m_driveSubsystem));
+    autoChooser.addOption("Red Right Coral", new RedRightCoralAuton(m_driveSubsystem));
     autoChooser.addOption("Odometry test", new TestingOdometry(m_driveSubsystem));
 
     // Put auto chooser on dashboard

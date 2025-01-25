@@ -5,25 +5,21 @@
 package frc.robot.Autons;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Drive.AutoReset;
 import frc.robot.commands.Drive.AutoRotateCommand;
 import frc.robot.commands.Drive.DriveToApriltag;
-import frc.robot.commands.Drive.ResetGyroCommand;
-import frc.robot.commands.Drive.ResetOdometry;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CenterSimpleAuton extends SequentialCommandGroup {
-  DriveSubsystem m_DriveSubsystem; 
+public class RedCenterProcessorAuton extends SequentialCommandGroup {
   /** Creates a new CenterSimpleAuton. */
-  public CenterSimpleAuton(DriveSubsystem _DriveSubsystem) {
+  public RedCenterProcessorAuton(DriveSubsystem _DriveSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    m_DriveSubsystem = _DriveSubsystem;
     addCommands(
-      new ResetOdometry(_DriveSubsystem), // Reset position
-      new ResetGyroCommand(m_DriveSubsystem), // Reset angle
+      new AutoReset(_DriveSubsystem), // Reset position and rotation
       
       new DriveToApriltag(_DriveSubsystem, 10, 4, 0.35, 0), // Go to reef middle
       new AutoRotateCommand(_DriveSubsystem, 90,1), // Rotate to face processor

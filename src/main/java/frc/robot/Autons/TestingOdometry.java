@@ -24,10 +24,14 @@ public class TestingOdometry extends SequentialCommandGroup {
       new ResetGyroCommand(m_DriveSubsystem),
 
       // new AutoRotateCommand(m_DriveSubsystem, 90, 1),
-      // new AutoRotateCommand(m_DriveSubsystem, 90, 2),
-      new AutoDriveOdometry(m_DriveSubsystem, 10, 0, 0, 0.01),
-      // new AutoRotateCommand(m_DriveSubsystem, 0, 2),
-      new AutoDriveOdometry(m_DriveSubsystem, 10, 10, 0, 0.01)
+      new AutoRotateCommand(m_DriveSubsystem, 90, 1),
+      new AutoDriveOdometry(m_DriveSubsystem, 10, 0, 90, 0.01),
+      new AutoRotateCommand(m_DriveSubsystem, 0, 1),
+      new AutoDriveOdometry(m_DriveSubsystem, 10, 10, 0, 0.01),
+      new AutoRotateCommand(m_DriveSubsystem, -90, 1),
+      new AutoDriveOdometry(m_DriveSubsystem, 0, 10, -90, 0.01),
+      new AutoRotateCommand(m_DriveSubsystem, 180, 1),
+      new AutoDriveOdometry(m_DriveSubsystem, 0, 0, 180, 0.01)
     );
   }
 }

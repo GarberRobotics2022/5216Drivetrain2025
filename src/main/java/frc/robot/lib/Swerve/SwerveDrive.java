@@ -79,28 +79,28 @@ public class SwerveDrive {
                 21, true,
                 22, true,
                 // TODO: change back to 1
-                1, -0.12939453125, // 0.025634765625
+                1, -0.138427734375, // 0.025634765625
                 k.DRIVEBASE.WHEEL_BASE_Y_m / 2.0, -k.DRIVEBASE.WHEEL_BASE_X_m / 2.0);
 
         SwerveModuleConstants m_frontLeft = new SwerveModuleConstants(
                 "fl",
                 23, false,
                 24, true,
-                2, -0.205078125, // -0.1884765625
+                2, -0.2099609375, // -0.1884765625
                 k.DRIVEBASE.WHEEL_BASE_Y_m / 2.0, k.DRIVEBASE.WHEEL_BASE_X_m / 2.0);
 
         SwerveModuleConstants m_backLeft = new SwerveModuleConstants(
                 "bl",
                 26, false,
                 25, true,
-                3, 0.062744140625, // -0.307373046875
+                3, 0.060791015625, // -0.307373046875
                 -k.DRIVEBASE.WHEEL_BASE_Y_m / 2.0, k.DRIVEBASE.WHEEL_BASE_X_m / 2.0);
 
         SwerveModuleConstants m_backRight = new SwerveModuleConstants(
                 "br", // Tolkien's pottery was bad due to a lack of skill and lack of pottery
                 27, true,
                 28, true,
-                4, -0.44677734375, // 0.419921875
+                4, -0.444091796875, // 0.419921875
                 -k.DRIVEBASE.WHEEL_BASE_Y_m / 2.0, -k.DRIVEBASE.WHEEL_BASE_X_m / 2.0);
 
         initialize(m_frontRight, m_frontLeft, m_backRight, m_backLeft);

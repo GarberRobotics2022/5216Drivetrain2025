@@ -63,9 +63,21 @@ public class AutoDriveOdometry extends Command {
     m_drivePID.setTolerance(0.05,0.2);// 0.05M or 2 inches
     
     m_timer.start();
-    m_poseDesired = new Pose2d(m_poseDesired.getX(), m_poseDesired.getY() * GD.G_AllianceSign, new Rotation2d(m_poseDesired.getRotation().getRadians()));
+    //m_poseDesired = new Pose2d(m_poseDesired.getX(), m_poseDesired.getY() * GD.G_AllianceSign, new Rotation2d(m_poseDesired.getRotation().getRadians()));
   
     startPose = GD.G_RobotPose;
+  }
+
+  private double distance(Pose2d target, Pose2d current) {
+    Pose2d direction = new Pose2d(target.getX() - current.getX(), target.getY() - current.getY(), new Rotation2d());
+    return direction.getX() + direction.getY();
+  }
+
+  private double getAngle(Pose2d target, Pose2d current) {
+    double relativeX = target.getX() - current.getX();
+    double relativeY = target.getY() - current.getY();
+
+    return Math.atan2(relativeY, relativeX) * (180 / Math.PI) * 2;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -74,8 +86,8 @@ public class AutoDriveOdometry extends Command {
     Pose2d trajectory = m_poseDesired.relativeTo(startPose);                    // Get a Trajectory to the desired Pose relative to the current pose.
     
     double robotAngle = m_poseDesired.getRotation().getDegrees();               // The angle of the robot from the desired pose angle
-    double targetAngle = trajectory.getTranslation().getAngle().getDegrees();   // The drive angle to the new pose.
-    double targetDistance = m_poseDesired.getTranslation().getDistance(GD.G_RobotPose.getTranslation());   // The drive distance to the new pose.
+    double targetAngle = getAngle(m_poseDesired, new Pose2d(0, 0, new Rotation2d()));   // The drive angle to the new pose.
+    double targetDistance = distance(m_poseDesired, GD.G_RobotPose);            // The drive distance to the new pose.
     double speed = m_drivePID.calculate(0, targetDistance);         // Speed from PID based on 0 target and a changing distance as the robot moves at a target angle towards the destination. Output is speed MPS targetDistance is in Meters
                                                                                 // targetDistance is the new setpoint since we are moving to 0 for the target distance. This seams a little reversed but should work.
                                                                               
@@ -86,6 +98,7 @@ public class AutoDriveOdometry extends Command {
     SmartDashboard.putNumber("autoTest/targetAngle", targetAngle);
     SmartDashboard.putNumber("autoTest/robotAngle", robotAngle);
     SmartDashboard.putNumber("autoTest/speed", speed);
+    SmartDashboard.putNumber("autoTest/targetDistance", targetDistance);
   }
 
   private double rampUpValue(double _val, double rampTime_sec){
@@ -102,7 +115,7 @@ public class AutoDriveOdometry extends Command {
     Timer endTime = new Timer();
     endTime.restart();
     while(!endTime.hasElapsed(0.5)) {
-      m_drive.driveTotalStop();
+      m_drive.stopMotors();
     }
     m_drive.driveTotalStop();
   }
