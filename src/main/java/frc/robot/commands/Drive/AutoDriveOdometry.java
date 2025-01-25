@@ -24,6 +24,9 @@ public class AutoDriveOdometry extends Command {
   boolean m_isFinished = false;
   Timer m_timer = new Timer();
   double m_rampUpTime = 1;
+  double tempTimeout;
+  Timer tempTimer = new Timer();
+
 
   Pose2d startPose;
 
@@ -33,12 +36,13 @@ public class AutoDriveOdometry extends Command {
    * @param xPos The desired x position in inches
    * @param yPos The desired y position in inches
    * @param rotation The desired rotation in degrees
-   * @param _speed  The speed in meters per second to drive at.
+   * @param _speed  The speed in inches per second to drive at.
    */
-  public AutoDriveOdometry(DriveSubsystem _drive, double xPos, double yPos, double rotation, double _speed) {
+  public AutoDriveOdometry(DriveSubsystem _drive, double xPos, double yPos, double rotation, double _speed, double _tempTimeout) {
     m_drive = _drive;
     m_poseDesired = new Pose2d(Units.inchesToMeters(xPos), Units.inchesToMeters(yPos), new Rotation2d(Units.degreesToRadians(rotation)));
     m_driveSpeed = _speed * 39.3701;
+    tempTimeout = _tempTimeout;
     addRequirements(m_drive);// here to declare subsystem dependencies.
   }
 
@@ -62,10 +66,14 @@ public class AutoDriveOdometry extends Command {
     m_drivePID = new PIDController(3.0, 0.750, 0.0);
     m_drivePID.setTolerance(0.05,0.2);// 0.05M or 2 inches
     
+    m_timer.reset();
     m_timer.start();
+    tempTimer.reset();
+    tempTimer.start();
     m_poseDesired = new Pose2d(m_poseDesired.getX(), m_poseDesired.getY() * GD.G_AllianceSign, new Rotation2d(m_poseDesired.getRotation().getRadians()));
   
     startPose = GD.G_RobotPose;
+    m_isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -75,8 +83,8 @@ public class AutoDriveOdometry extends Command {
     
     double robotAngle = m_poseDesired.getRotation().getDegrees();               // The angle of the robot from the desired pose angle
     double targetAngle = trajectory.getTranslation().getAngle().getDegrees();   // The drive angle to the new pose.
-    double targetDistance = m_poseDesired.getTranslation().getDistance(GD.G_RobotPose.getTranslation());   // The drive distance to the new pose.
-    double speed = m_drivePID.calculate(0, targetDistance);         // Speed from PID based on 0 target and a changing distance as the robot moves at a target angle towards the destination. Output is speed MPS targetDistance is in Meters
+    double targetDistance = m_poseDesired.getTranslation().getDistance(trajectory.getTranslation());   // The drive distance to the new pose.
+    double speed = m_drivePID.calculate(0, targetDistance);          // Speed from PID based on 0 target and a changing distance as the robot moves at a target angle towards the destination. Output is speed MPS targetDistance is in Meters
                                                                                 // targetDistance is the new setpoint since we are moving to 0 for the target distance. This seams a little reversed but should work.
                                                                               
     speed = rampUpValue(speed, m_rampUpTime);                                   // Ramp up the speed so a sudden step in voltage does not happen
@@ -86,6 +94,9 @@ public class AutoDriveOdometry extends Command {
     SmartDashboard.putNumber("autoTest/targetAngle", targetAngle);
     SmartDashboard.putNumber("autoTest/robotAngle", robotAngle);
     SmartDashboard.putNumber("autoTest/speed", speed);
+    SmartDashboard.putNumber("autoTest/targetDistance", targetDistance);
+    SmartDashboard.putBoolean("autoTest/m_isFinished", m_isFinished);
+    
   }
 
   private double rampUpValue(double _val, double rampTime_sec){
@@ -102,15 +113,15 @@ public class AutoDriveOdometry extends Command {
     Timer endTime = new Timer();
     endTime.restart();
     while(!endTime.hasElapsed(0.5)) {
-      m_drive.driveTotalStop();
+      m_drive.stopMotors();
     }
-    m_drive.driveTotalStop();
+    SmartDashboard.putBoolean("autoTest/m_isFinished", m_isFinished);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_drivePID.atSetpoint()){
+    if(m_drivePID.atSetpoint() && tempTimer.hasElapsed(tempTimeout)){
       m_isFinished = true;
     }
     return m_isFinished;

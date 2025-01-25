@@ -87,7 +87,7 @@ public class DrivetrainDefaultCommand extends Command {
           break;
       }
     } else {
-      m_drive.driveStopMotion();
+      m_drive.stopMotors();
     }
   }
 
