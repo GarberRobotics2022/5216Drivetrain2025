@@ -22,13 +22,12 @@ public class RedRightCoralAuton extends SequentialCommandGroup {
     addCommands(
       new AutoReset(_DriveSubsystem), // Reset pose and rotation
 
-      new AutoDriveOdometry(_DriveSubsystem, 20, 0, 0, 0.01),
-      new AutoRotateCommand(_DriveSubsystem, -120, 1),
-      new DriveToApriltag(_DriveSubsystem, 8, 4, 0.35, -120),
-      new AutoRotateCommand(_DriveSubsystem, -60, 1),
-      new AutoRotateCommand(_DriveSubsystem, 0, 1),
-      new DriveToApriltag(_DriveSubsystem, 2, 4, 0.35, 60),
-      new AutoRotateCommand(_DriveSubsystem, -120, 1)
+      new AutoDriveOdometry(_DriveSubsystem, 180 / 1.32, 0, 0, 0.01)//,
+      // new AutoRotateCommand(_DriveSubsystem, -120, 1),
+      // new DriveToApriltag(_DriveSubsystem, 8, 4, 0.35, -120),
+      // new AutoRotateCommand(_DriveSubsystem, 60, 1),
+      // new DriveToApriltag(_DriveSubsystem, 2, 4, 0.35, 60),
+      // new AutoRotateCommand(_DriveSubsystem, -120, 1)
     );
   }
 }

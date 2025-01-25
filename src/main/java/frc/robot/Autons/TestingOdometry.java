@@ -29,7 +29,7 @@ public class TestingOdometry extends SequentialCommandGroup {
       new AutoRotateCommand(m_DriveSubsystem, 0, 1),
       new AutoDriveOdometry(m_DriveSubsystem, 10, 10, 0, 0.01),
       new AutoRotateCommand(m_DriveSubsystem, -90, 1),
-      new AutoDriveOdometry(m_DriveSubsystem, 0, 10, -90, 0.01),
+      new AutoDriveOdometry(m_DriveSubsystem, 0, 10, 270, 0.01),
       new AutoRotateCommand(m_DriveSubsystem, 180, 1),
       new AutoDriveOdometry(m_DriveSubsystem, 0, 0, 180, 0.01)
     );
