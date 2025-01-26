@@ -89,7 +89,7 @@ public class AutoDriveOdometry extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d trajectory = m_poseDesired.relativeTo(startPose);                    // Get a Trajectory to the desired Pose relative to the current pose.
+    // Pose2d trajectory = m_poseDesired.relativeTo(startPose);                    // Get a Trajectory to the desired Pose relative to the current pose.
     
     double robotAngle = m_poseDesired.getRotation().getDegrees();               // The angle of the robot from the desired pose angle
     double targetAngle = getAngle(m_poseDesired, new Pose2d(0, 0, new Rotation2d()));   // The drive angle to the new pose.
