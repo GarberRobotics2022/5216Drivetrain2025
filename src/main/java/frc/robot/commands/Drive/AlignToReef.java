@@ -64,10 +64,14 @@ public class AlignToReef extends Command {
 
   // Convert rotation to the direction its supposed to be
   private double getRotation(int tagId) {
-    double blueRotation = GD.G_Alliance == Alliance.Blue ? 180 : 0; // If you're on blue team, rotate angles by 180 because you start facing the other way
-    double teleopRotation = GD.G_RobotMode == ERobotMode.TELEOP ? 180 : 0; // If you're in teleop, rotate by 180 to make it easier for the drivers
-
-    return rotations[tagId] + blueRotation + teleopRotation;
+    if (tagId > 0) {
+      double blueRotation = GD.G_Alliance == Alliance.Blue ? 180 : 0; // If you're on blue team, rotate angles by 180 because you start facing the other way
+      double teleopRotation = GD.G_RobotMode == ERobotMode.TELEOP ? 180 : 0; // If you're in teleop, rotate by 180 to make it easier for the drivers
+      
+      return rotations[tagId] + blueRotation + teleopRotation;
+    } else {
+      return 0;
+    }
   }
 
   /** Creates a new AlignToReef. */
