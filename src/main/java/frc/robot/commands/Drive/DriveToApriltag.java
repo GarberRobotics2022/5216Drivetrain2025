@@ -45,14 +45,14 @@ public class DriveToApriltag extends Command {
     SmartDashboard.putNumber("tag stuff", t);
     if (t == targetTag) {
       if (LimelightHelpers.getTA("limelight") > targetArea) {
-        isFinished = true;
+        isFinished = false;
         speed = 0;
       }
       driveSubsystem.drivePolarFieldCentric(-LimelightHelpers.getTX("limelight") + driveSubsystem.m_robotDrive.getRobotYaw(), robotAngle, speed, true, true);
     } else {
       speed = 0;
       driveSubsystem.drivePolarFieldCentric(0, robotAngle, speed, true, true);
-      isFinished = true;
+      isFinished = false;
     }
   }
 

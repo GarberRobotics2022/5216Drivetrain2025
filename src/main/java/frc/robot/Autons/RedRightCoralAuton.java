@@ -5,10 +5,12 @@
 package frc.robot.Autons;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Drive.AlignToReef;
 import frc.robot.commands.Drive.AutoDriveOdometry;
 import frc.robot.commands.Drive.AutoReset;
 import frc.robot.commands.Drive.AutoRotateCommand;
 import frc.robot.commands.Drive.DriveToApriltag;
+import frc.robot.lib.EReefAlignment;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -22,13 +24,16 @@ public class RedRightCoralAuton extends SequentialCommandGroup {
     addCommands(
       new AutoReset(_DriveSubsystem), // Reset pose and rotation
 
-      new AutoDriveOdometry(_DriveSubsystem, 20, 0, 0, 0.01),
-      new AutoRotateCommand(_DriveSubsystem, -120, 1),
-      new DriveToApriltag(_DriveSubsystem, 8, 4, 0.35, -120),
-      new AutoRotateCommand(_DriveSubsystem, -60, 1),
-      new AutoRotateCommand(_DriveSubsystem, 0, 1),
-      new DriveToApriltag(_DriveSubsystem, 2, 4, 0.35, 60),
-      new AutoRotateCommand(_DriveSubsystem, -120, 1)
+      new DriveToApriltag(_DriveSubsystem, 8, 10, 0.01, 0)
+
+      // new AutoDriveOdometry(_DriveSubsystem, 180 / 1.32, 0, 0, 0.01),
+      // new AutoRotateCommand(_DriveSubsystem, -120, 1),
+      // new DriveToApriltag(_DriveSubsystem, 8, 4, 0.35, -120),
+      // new AutoRotateCommand(_DriveSubsystem, 45, 5),
+      // new DriveToApriltag(_DriveSubsystem, 2, 6, 0.35, 45),
+      // // new DriveToApriltag(_DriveSubsystem, 2, 6, 0.35, 60),
+      // new AutoRotateCommand(_DriveSubsystem, -120, 2),
+      // new DriveToApriltag(_DriveSubsystem, 8, 4, 0.35, -120)
     );
   }
 }

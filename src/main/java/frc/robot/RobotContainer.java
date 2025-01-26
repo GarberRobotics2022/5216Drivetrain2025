@@ -16,11 +16,14 @@ import frc.robot.commands.armMoveToPos;
 import frc.robot.commands.Climber.ClimberDefaultCommand;
 import frc.robot.commands.Climber.LeftClimberCommand;
 import frc.robot.commands.Climber.RightClimberCommand;
+import frc.robot.commands.Drive.AlignToReef;
 import frc.robot.commands.Drive.CycleDriveModeCommand;
+import frc.robot.commands.Drive.DriveToApriltag;
 import frc.robot.commands.Drive.DrivetrainDefaultCommand;
 import frc.robot.commands.Drive.ResetGyroCommand;
 import frc.robot.commands.Drive.SetGyroCommand;
 import frc.robot.lib.EArmPos;
+import frc.robot.lib.EReefAlignment;
 import frc.robot.lib.ISubsystem;
 import frc.robot.lib.k;
 import frc.robot.subsystems.ArmSubsystem;
@@ -139,7 +142,7 @@ public class RobotContainer {
     
     m_driverController.y().onTrue(new CycleDriveModeCommand(m_driveSubsystem));
     m_driverController.x().onTrue(new ResetGyroCommand(m_driveSubsystem));
-    m_driverController.b().onTrue(new SetGyroCommand(m_driveSubsystem, 180));
+    m_driverController.b().whileTrue(new AlignToReef(m_driveSubsystem, EReefAlignment.RIGHT_REEF));
 
     m_driverController.leftBumper().whileTrue(new LeftClimberCommand(m_climberSubsystem, -0.85));
     m_driverController.rightBumper().whileTrue(new RightClimberCommand(m_climberSubsystem, -0.85));
