@@ -6,17 +6,14 @@ package frc.robot.commands.Drive;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.lib.EReefAlignment;
-import frc.robot.lib.ERobotMode;
-import frc.robot.lib.GD;
 import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlignToReef extends Command {
+public class AutoAlignToReef extends Command {
   DriveSubsystem driveSubsystem;
   EReefAlignment reefAlignment;
   PIDController drivePID;
@@ -25,53 +22,8 @@ public class AlignToReef extends Command {
   double driveAngle;
   double requestedTA = 3;
 
-  /**
-   * ID == Index
-   * Ex. for ID 1, get rotations[1]
-   * Relative to facing red drivers == 0
-   */
-  private double[] rotations = {
-    0, // Id should never be 0
-
-    // Red Side
-
-    60, // 1
-    -60, // 2
-    -90, // 3
-    -180, // 4
-    -180, // 5
-    -120, // 6
-    -180, // 7
-    120, // 8
-    -60, // 9
-    0, // 10
-    60, // 11
-
-    // Blue Side
-
-    120, // 12
-    -120, // 13
-    0, // 14
-    0, // 15
-    90, // 16
-    60, // 17
-    0, // 18
-    -60, // 19
-    120, // 20
-    180, // 21
-    -120 // 22
-  };
-
-  // Convert rotation to the direction its supposed to be
-  private double getRotation(int tagId) {
-    double blueRotation = GD.G_Alliance == Alliance.Blue ? 180 : 0; // If you're on blue team, rotate angles by 180 because you start facing the other way
-    double teleopRotation = GD.G_RobotMode == ERobotMode.TELEOP ? 180 : 0; // If you're in teleop, rotate by 180 to make it easier for the drivers
-
-    return rotations[tagId] + blueRotation + teleopRotation;
-  }
-
-  /** Creates a new AlignToReef. */
-  public AlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment) {
+  /** Creates a new AutoAlignToReef. */
+  public AutoAlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment) {
     driveSubsystem = _driveSubsystem;
     reefAlignment = _reefAlignment;
 
@@ -83,8 +35,38 @@ public class AlignToReef extends Command {
   @Override
   public void initialize() {
     drivePID = new PIDController(0.4, 0, 0);
-
-    robotAngle = getRotation((int)LimelightHelpers.getFiducialID(""));
+    switch ((int) LimelightHelpers.getFiducialID("")) {
+      case 1:
+        robotAngle = 0;
+        break;
+      case 2:
+        robotAngle = 0;
+        break;
+      case 3:
+        robotAngle = 0;
+        break;
+      case 4:
+        robotAngle = 0;
+        break;
+      case 5:
+        robotAngle = 0;
+        break;
+      case 6:
+        robotAngle = 0;
+        break;
+      case 7:
+        robotAngle = 0;
+        break;
+      case 8:
+        robotAngle = 0;
+        break;
+      case 9:
+        robotAngle = -60;
+        break;
+      case 10:
+        robotAngle = 0;
+        break;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -131,6 +113,6 @@ public class AlignToReef extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (((LimelightHelpers.getTA("") > requestedTA - 0.1) && (LimelightHelpers.getTA("") < requestedTA + 0.1)) && ((driveAngle - driveSubsystem.m_robotDrive.getRobotYaw()) < 1) && ((driveAngle - driveSubsystem.m_robotDrive.getRobotYaw()) > -1));
   }
 }
