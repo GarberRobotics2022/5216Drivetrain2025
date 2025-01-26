@@ -18,7 +18,7 @@ import frc.robot.commands.Climber.LeftClimberCommand;
 import frc.robot.commands.Climber.RightClimberCommand;
 import frc.robot.commands.Drive.AlignToReef;
 import frc.robot.commands.Drive.CycleDriveModeCommand;
-import frc.robot.commands.Drive.DriveToApriltag;
+import frc.robot.commands.Drive.AutoAlignToReef;
 import frc.robot.commands.Drive.DrivetrainDefaultCommand;
 import frc.robot.commands.Drive.ResetGyroCommand;
 import frc.robot.commands.Drive.SetGyroCommand;

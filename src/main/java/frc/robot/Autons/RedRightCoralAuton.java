@@ -9,7 +9,7 @@ import frc.robot.commands.Drive.AlignToReef;
 import frc.robot.commands.Drive.AutoDriveOdometry;
 import frc.robot.commands.Drive.AutoReset;
 import frc.robot.commands.Drive.AutoRotateCommand;
-import frc.robot.commands.Drive.DriveToApriltag;
+import frc.robot.commands.Drive.AutoAlignToReef;
 import frc.robot.lib.EReefAlignment;
 import frc.robot.subsystems.DriveSubsystem;
 

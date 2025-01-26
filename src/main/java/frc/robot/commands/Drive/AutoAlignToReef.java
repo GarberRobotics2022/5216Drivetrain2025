@@ -13,7 +13,7 @@ import frc.robot.lib.EReefAlignment;
 import frc.robot.subsystems.DriveSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class AlignToReef extends Command {
+public class AutoAlignToReef extends Command {
   DriveSubsystem driveSubsystem;
   EReefAlignment reefAlignment;
   PIDController drivePID;
@@ -22,8 +22,8 @@ public class AlignToReef extends Command {
   double driveAngle;
   double requestedTA = 3;
 
-  /** Creates a new AlignToReef. */
-  public AlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment) {
+  /** Creates a new AutoAlignToReef. */
+  public AutoAlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment) {
     driveSubsystem = _driveSubsystem;
     reefAlignment = _reefAlignment;
 
@@ -113,6 +113,6 @@ public class AlignToReef extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (((LimelightHelpers.getTA("") > requestedTA - 0.1) && (LimelightHelpers.getTA("") < requestedTA + 0.1)) && ((driveAngle - driveSubsystem.m_robotDrive.getRobotYaw()) < 1) && ((driveAngle - driveSubsystem.m_robotDrive.getRobotYaw()) > -1));
   }
 }
