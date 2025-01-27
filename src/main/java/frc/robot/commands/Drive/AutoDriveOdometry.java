@@ -38,7 +38,7 @@ public class AutoDriveOdometry extends Command {
    */
   public AutoDriveOdometry(DriveSubsystem _drive, double xPos, double yPos, double rotation, double _speed) {
     m_drive = _drive;
-    m_poseDesired = new Pose2d(Units.inchesToMeters(xPos), Units.inchesToMeters(yPos), new Rotation2d(Units.degreesToRadians(rotation)));
+    m_poseDesired = new Pose2d(Units.inchesToMeters(xPos / 1.32), Units.inchesToMeters(yPos / 1.32), new Rotation2d(Units.degreesToRadians(rotation)));
     m_driveSpeed = _speed * 39.3701;
     addRequirements(m_drive);// here to declare subsystem dependencies.
   }
