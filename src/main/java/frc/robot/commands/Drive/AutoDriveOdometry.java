@@ -83,7 +83,7 @@ public class AutoDriveOdometry extends Command {
 
     double angle = (Math.atan2(relativeY, relativeX) * (180 / Math.PI) * 2);
 
-    return angle; //Math.abs(Math.sin((angle/57.29578) * 90));
+    return angle; //Math.sin(angle * (Math.PI / 180)) * 90;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
