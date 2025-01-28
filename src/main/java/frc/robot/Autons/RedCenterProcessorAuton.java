@@ -20,16 +20,16 @@ public class RedCenterProcessorAuton extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutoReset(_DriveSubsystem), // Reset position and rotation
+      // new AutoReset(_DriveSubsystem), // Reset position and rotation
       
-      new AutoAlignToReef(_DriveSubsystem, EReefAlignment.RIGHT_REEF, "front", 2), // Go to reef middle
-      new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2),
-      new AutoRotateCommand(_DriveSubsystem, 90,1), // Rotate to face processor
-      new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2), // Go to processor
-      new AutoRotateCommand(_DriveSubsystem, -45, 2), // Face reef
-      new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2), // Go to reef
-      new AutoRotateCommand(_DriveSubsystem, 90, 2), // Face processor
-      new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2) // Go to processor
+      // new AutoAlignToReef(_DriveSubsystem, EReefAlignment.RIGHT_REEF, "front", 2), // Go to reef middle
+      // new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2),
+      // new AutoRotateCommand(_DriveSubsystem, 90,1), // Rotate to face processor
+      // new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2), // Go to processor
+      // new AutoRotateCommand(_DriveSubsystem, -45, 2), // Face reef
+      // new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2), // Go to reef
+      // new AutoRotateCommand(_DriveSubsystem, 90, 2), // Face processor
+      // new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, "front", 2) // Go to processor
     );
   }
 }

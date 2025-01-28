@@ -23,9 +23,11 @@ public class AutoAlignToReef extends Command {
   double robotAngle;
   double speed;
   double driveAngle;
-  double requestedTA = 3;
+  double requestedTA;
   double driveSpeed;
   String targetLimelightName;
+
+  boolean isReversed;
 
   /**
    * ID == Index
@@ -38,7 +40,7 @@ public class AutoAlignToReef extends Command {
     // Red Side
 
     -60, // 1
-    60, // 2
+    49, // 2
     -90, // 3
     -180, // 4
     -180, // 5
@@ -82,11 +84,13 @@ public class AutoAlignToReef extends Command {
   }
 
   /** Creates a new AutoAlignToReef. */
-  public AutoAlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment, String limelightName, double speed) {
+  public AutoAlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment, double targetArea, String limelightName, double speed, boolean reverse) {
     driveSubsystem = _driveSubsystem;
     reefAlignment = _reefAlignment;
     driveSpeed = speed;
     targetLimelightName = "limelight-" + limelightName;
+    isReversed = reverse;
+    requestedTA = targetArea;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveSubsystem);
@@ -111,10 +115,6 @@ public class AutoAlignToReef extends Command {
       driveAngle = -LimelightHelpers.getTX(targetLimelightName) + driveSubsystem.m_robotDrive.getRobotYaw() - 9;
     }
 
-    if (targetLimelightName == "limelight-back") {
-      driveAngle += 180;
-    }
-
     if (((LimelightHelpers.getTA(targetLimelightName) > requestedTA - 0.1) && (LimelightHelpers.getTA(targetLimelightName) < requestedTA + 0.1))
         && driveAngle != 0) {
       speed = drivePID.calculate(0, (driveAngle - driveSubsystem.m_robotDrive.getRobotYaw()) * 0.1);
@@ -122,6 +122,10 @@ public class AutoAlignToReef extends Command {
       speed = drivePID.calculate(0, -LimelightHelpers.getTA(targetLimelightName) + requestedTA);
     } else {
       speed = 0;
+    }
+
+    if (isReversed) {
+      speed *= -1;
     }
 
     speed = MathUtil.clamp(speed, -driveSpeed, driveSpeed);

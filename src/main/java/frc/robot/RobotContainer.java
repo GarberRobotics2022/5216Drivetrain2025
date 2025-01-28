@@ -85,7 +85,7 @@ public class RobotContainer {
     configureBindings();
 
     // Set auto chooser stuff
-    autoChooser.setDefaultOption("Center Simple Auton", new RedCenterProcessorAuton(m_driveSubsystem));
+    autoChooser.setDefaultOption("Red Center Processor", new RedCenterProcessorAuton(m_driveSubsystem));
     autoChooser.addOption("Red Right Coral", new RedRightCoralAuton(m_driveSubsystem));
     autoChooser.addOption("Odometry test", new TestingOdometry(m_driveSubsystem));
 
