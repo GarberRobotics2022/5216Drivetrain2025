@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import frc.robot.Autons.RedCenterProcessorAuton;
+import frc.robot.Autons.RedLeftCoralAuton;
 import frc.robot.Autons.RedRightCoralAuton;
 import frc.robot.Autons.TestingOdometry;
 import frc.robot.commands.Drive.AlignToReef;
@@ -88,6 +89,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Red Center Processor", new RedCenterProcessorAuton(m_driveSubsystem));
     autoChooser.addOption("Red Right Coral", new RedRightCoralAuton(m_driveSubsystem));
     autoChooser.addOption("Odometry test", new TestingOdometry(m_driveSubsystem));
+    autoChooser.addOption("Red Left Coral", new RedLeftCoralAuton(m_driveSubsystem));
 
     // Put auto chooser on dashboard
     SmartDashboard.putData("Autonomous Play", autoChooser);
