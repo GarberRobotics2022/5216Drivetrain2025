@@ -5,10 +5,6 @@
 package frc.robot.Autons;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Drive.AutoReset;
-import frc.robot.commands.Drive.AutoRotateCommand;
-import frc.robot.lib.EReefAlignment;
-import frc.robot.commands.Drive.AutoAlignToReef;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

@@ -26,7 +26,7 @@ public class RedRightCoralAuton extends SequentialCommandGroup {
       new AutoDriveOdometry(_DriveSubsystem, 180, 0, 240, 0.01),
       new AutoRotateCommand(_DriveSubsystem, -120, 1),
       new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, 3, "front", 2, false),
-      new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, 0.8, "back", 2, true),
+      new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, 0.6, "back", 2, true),
       new AutoAlignToReef(_DriveSubsystem, EReefAlignment.CENTER_REEF, 3, "front", 2, false)
       // new AutoRotateCommand(_DriveSubsystem, 60, 1),
       // new DriveToApriltag(_DriveSubsystem, 2z, 4, 0.35, 60),

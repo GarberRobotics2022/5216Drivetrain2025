@@ -2,7 +2,9 @@
 
 package frc.robot.lib.Swerve;
 
-import com.ctre.phoenix6.hardware.Pigeon2;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -22,7 +24,7 @@ import edu.wpi.first.math.util.Units;
 public class SwerveDrive {
     private int m_moduleCount;
     private SwerveModule[] m_modules;
-    private Pigeon2 m_pigeon2;
+    private AHRS m_navX;
     private SwerveDriveKinematics m_kinematics;
     private SwerveDriveOdometry m_odometry;
     private SwerveModulePosition[] m_modulePositions;
@@ -57,7 +59,7 @@ public class SwerveDrive {
                 m_modulePositions[3] = m_modules[3].getPosition(true);
 
                 // Assume Pigeon2 is flat-and-level so latency compensation can be performed
-                double yawDegrees = m_pigeon2.getYaw().getValueAsDouble();//BaseStatusSignal.getLatencyCompensatedValue(m_pigeon2.getYaw(), m_pigeon2.getAngularVelocityZDevice());
+                double yawDegrees = m_navX.getAngle();
 
                 GD.G_RobotPose = m_odometry.update(Rotation2d.fromDegrees(yawDegrees), m_modulePositions);
                 m_field.setRobotPose(m_odometry.getPoseMeters());
@@ -108,7 +110,7 @@ public class SwerveDrive {
 
     public void initialize(SwerveModuleConstants... _modules){
         m_moduleCount = _modules.length;
-        m_pigeon2 = new Pigeon2(k.CANIVORE_IDS.PIGEON2_CANID, k.ROBORIO_CAN_IDS.NAME);
+        m_navX = new AHRS(NavXComType.kMXP_SPI);
         
         m_modules = new SwerveModule[m_moduleCount];
         m_modulePositions = new SwerveModulePosition[m_moduleCount];
@@ -121,7 +123,7 @@ public class SwerveDrive {
         }
 
         m_kinematics = new SwerveDriveKinematics(m_moduleLocations);
-        m_odometry = new SwerveDriveOdometry(m_kinematics, m_pigeon2.getRotation2d(), getSwervePositions());
+        m_odometry = new SwerveDriveOdometry(m_kinematics, m_navX.getRotation2d(), getSwervePositions());
         m_field = new Field2d();
         SmartDashboard.putData("Field", m_field);
 
@@ -144,16 +146,16 @@ public class SwerveDrive {
     }
 
     public void driveFieldCentric(ChassisSpeeds _speeds) {
-        var roboCentric = ChassisSpeeds.fromFieldRelativeSpeeds(_speeds, m_pigeon2.getRotation2d());
+        var roboCentric = ChassisSpeeds.fromFieldRelativeSpeeds(_speeds, m_navX.getRotation2d());
         var swerveStates = m_kinematics.toSwerveModuleStates(roboCentric);
         setSwerveModules(swerveStates, true, true);
     }
 
     public void driveAngleFieldCentric(double _xSpeeds, double _ySpeeds, Rotation2d _targetAngle, boolean _enableSteer, boolean _enableDrive) {
-        var currentAngle = m_pigeon2.getRotation2d();
+        var currentAngle = m_navX.getRotation2d();
         double rotationalSpeed = m_turnPid.calculate(currentAngle.getRadians(), _targetAngle.getRadians());
         rotationalSpeed = MathUtil.applyDeadband(rotationalSpeed, 0.01);
-        var roboCentric = ChassisSpeeds.fromFieldRelativeSpeeds(_xSpeeds, _ySpeeds, rotationalSpeed, m_pigeon2.getRotation2d());
+        var roboCentric = ChassisSpeeds.fromFieldRelativeSpeeds(_xSpeeds, _ySpeeds, rotationalSpeed, m_navX.getRotation2d());
         var swerveStates = m_kinematics.toSwerveModuleStates(roboCentric);
         setSwerveModules(swerveStates, _enableSteer, _enableDrive);
         updateDashboard();
@@ -179,19 +181,20 @@ public class SwerveDrive {
     }
 
     public void resetYaw() {
-        m_pigeon2.setYaw(0);
+        m_navX.reset();
     }
     public void resetPose(){
-        m_odometry.resetPosition(m_pigeon2.getRotation2d(), getSwervePositions(), new Pose2d(0,0,new Rotation2d()));
+        m_odometry.resetPosition(m_navX.getRotation2d(), getSwervePositions(), new Pose2d(0,0,new Rotation2d()));
     }
 
     public void setYaw(double degrees) {
-        m_pigeon2.setYaw(degrees);
+        m_navX.zeroYaw();
+        m_navX.setAngleAdjustment(degrees);
     }
 
     /** Sets the new position in inches */
     public void setPos(Pose2d newPos) {
-        m_odometry.resetPosition(m_pigeon2.getRotation2d(), getSwervePositions(), newPos);
+        m_odometry.resetPosition(m_navX.getRotation2d(), getSwervePositions(), newPos);
     }
 
     /**
@@ -201,7 +204,7 @@ public class SwerveDrive {
      * @param newY The new Y position in inches
      */
     public void setPos(double newX, double newY) {
-        m_odometry.resetPosition(m_pigeon2.getRotation2d(), getSwervePositions(), new Pose2d(newX, newY, new Rotation2d()));
+        m_odometry.resetPosition(m_navX.getRotation2d(), getSwervePositions(), new Pose2d(newX, newY, new Rotation2d()));
     }
 
     public Pose2d getPoseMeters() {
@@ -217,7 +220,7 @@ public class SwerveDrive {
     }
 
     public double getRobotYaw() {
-        return m_pigeon2.getYaw().getValueAsDouble();
+        return m_navX.getAngle();
     }
 
     public boolean isTurnPIDatSetpoint() {
