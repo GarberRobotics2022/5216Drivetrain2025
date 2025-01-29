@@ -88,6 +88,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Blue Center Processor", new BlueCenterProcessorAuton(m_driveSubsystem));
     autoChooser.addOption("Blue Right Coral", new BlueRightCoralAuton(m_driveSubsystem));
     autoChooser.addOption("Odometry test", new TestingOdometry(m_driveSubsystem));
+    autoChooser.addOption("Red Left Coral", new RedLeftCoralAuton(m_driveSubsystem));
 
     // Put auto chooser on dashboard
     SmartDashboard.putData("Autonomous Play", autoChooser);

@@ -30,44 +30,48 @@ public class AlignToReef extends Command {
    * Ex. for ID 1, get rotations[1]
    * Relative to facing red drivers == 0
    */
+
+  // Array for Tag Rotations. Index 0 should never be used.
   private double[] rotations = {
-    0, // Id should never be 0
+      0, // Id should never be 0
 
-    // Red Side
+      // Red Side
 
-    -60, // 1
-    60, // 2
-    -90, // 3
-    -180, // 4
-    -180, // 5
-    120, // 6
-    0, // 7
-    60, // 8
-    120, // 9
-    180, // 10
-    60, // 11
+      -60, // 1
+      60, // 2
+      -90, // 3
+      -180, // 4
+      -180, // 5
+      120, // 6
+      0, // 7
+      60, // 8
+      120, // 9
+      180, // 10
+      60, // 11
 
-    // Blue Side
+      // Blue Side
 
-    120, // 12
-    -120, // 13
-    0, // 14
-    0, // 15
-    90, // 16
-    60, // 17
-    0, // 18
-    -60, // 19
-    120, // 20
-    180, // 21
-    -120 // 22
+      -120, // 12
+      120, // 13
+      0, // 14
+      0, // 15
+      90, // 16
+      60, // 17
+      0, // 18
+      -60, // 19
+      120, // 20
+      180, // 21
+      -120 // 22
   };
 
   // Convert rotation to the direction its supposed to be
   private double getRotation(int tagId) {
     if (tagId > 0) {
-      double blueRotation = GD.G_Alliance == Alliance.Blue ? 180 : 0; // If you're on blue team, rotate angles by 180 because you start facing the other way
-      double teleopRotation = GD.G_RobotMode == ERobotMode.TELEOP ? 0 : 180; // If you're in teleop, rotate by 180 to make it easier for the drivers
-      
+      double blueRotation = GD.G_Alliance == Alliance.Blue ? 180 : 0; // If you're on blue team, rotate angles by 180
+                                                                      // because you start facing the other way
+      double teleopRotation = GD.G_RobotMode == ERobotMode.TELEOP ? 180 : 0; // If you're in teleop, rotate by 180 to
+                                                                             // make it easier for the drivers
+
       return rotations[tagId] + blueRotation + teleopRotation;
     } else {
       return 0;
@@ -86,45 +90,54 @@ public class AlignToReef extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivePID = new PIDController(0.4, 0, 0);
+    drivePID = new PIDController(0.4, 0, 0); // Initialize PID.
 
-    robotAngle = getRotation((int)LimelightHelpers.getFiducialID(""));
+    robotAngle = getRotation((int) LimelightHelpers.getFiducialID("")); // Set the robot's angle based on the tag ID.
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (reefAlignment == EReefAlignment.CENTER_REEF) {
-      driveAngle = -LimelightHelpers.getTX("") + driveSubsystem.m_robotDrive.getRobotYaw();
-    } else if (reefAlignment == EReefAlignment.LEFT_REEF) {
-      driveAngle = -LimelightHelpers.getTX("") + driveSubsystem.m_robotDrive.getRobotYaw() + 9;
-    } else if (reefAlignment == EReefAlignment.RIGHT_REEF) {
-      driveAngle = -LimelightHelpers.getTX("") + driveSubsystem.m_robotDrive.getRobotYaw() - 9;
+    if (reefAlignment == EReefAlignment.CENTER_REEF) { // If the requested position for the robot position is the center of the reef:
+      driveAngle = -LimelightHelpers.getTX("") + driveSubsystem.m_robotDrive.getRobotYaw(); // Set the offset for driving.
+    } else if (reefAlignment == EReefAlignment.LEFT_REEF) { // If the requested position for the robot position is the left of the reef:
+      driveAngle = -LimelightHelpers.getTX("") + driveSubsystem.m_robotDrive.getRobotYaw() + 9; // Set the offset for driving.
+    } else if (reefAlignment == EReefAlignment.RIGHT_REEF) { // If the requested position for the robot position is the right of the reef:
+      driveAngle = -LimelightHelpers.getTX("") + driveSubsystem.m_robotDrive.getRobotYaw() - 9; // Set the offset for driving.
     }
 
     if (((LimelightHelpers.getTA("") > requestedTA - 0.1) && (LimelightHelpers.getTA("") < requestedTA + 0.1))
-        && driveAngle != 0) {
-      speed = drivePID.calculate(0, (driveAngle - driveSubsystem.m_robotDrive.getRobotYaw()) * 0.1);
-    } else if (LimelightHelpers.getTA("") != 0) {
-      speed = drivePID.calculate(0, -LimelightHelpers.getTA("") + requestedTA);
-    } else {
-      speed = 0;
+                                                                                                               // If the robot
+                                                                                                               // is within the
+                                                                                                               // requested TA
+        && driveAngle != 0) { // And the drive angle is not 0:
+      speed = drivePID.calculate(0, (driveAngle - driveSubsystem.m_robotDrive.getRobotYaw()) * 0.1); // Calculate the drive
+                                                                                                     // speed based off of TX.
+    } else if (LimelightHelpers.getTA("") != 0) { // Else: If TA is not 0:
+      speed = drivePID.calculate(0, -LimelightHelpers.getTA("") + requestedTA); // Calculate the drive speed 
+                                                                                // based off of TA.
+    } else { // Else:
+      speed = 0; // Stop the robot.
     }
 
-    speed = MathUtil.clamp(speed, -2, 2);
+    speed = MathUtil.clamp(speed, -2, 2); // Set the maximum speed to 2 and minimum speed to -2.
 
-    if (((LimelightHelpers.getTA("") > requestedTA - 0.1) && (LimelightHelpers.getTA("") < requestedTA + 0.1))
-        && driveAngle != 0) {
-      driveSubsystem.drivePolarFieldCentric(90 + driveSubsystem.m_robotDrive.getRobotYaw(), robotAngle, speed,
+    if (((LimelightHelpers.getTA("") > requestedTA - 0.1) && (LimelightHelpers.getTA("") < requestedTA + 0.1)) // If the
+                                                                                                               // robot is within the
+                                                                                                               // requested TA
+        && driveAngle != 0) { // And drive angle is not 0:
+      driveSubsystem.drivePolarFieldCentric(90 + driveSubsystem.m_robotDrive.getRobotYaw(), robotAngle, speed, // Drive sideways to get
+                                                                                                               // within the requested TX.
           true, true);
-    } else {
-      driveSubsystem.drivePolarFieldCentric(driveAngle, robotAngle, speed, true, true);
+    } else { // Else:
+      driveSubsystem.drivePolarFieldCentric(driveAngle, robotAngle, speed, true, true); // Drive normally.
     }
 
     SmartDashboard.putNumber("driveAngle", driveAngle);
     SmartDashboard.putBoolean("atSetpoint",
         ((LimelightHelpers.getTA("") > requestedTA - 0.1) && (LimelightHelpers.getTA("") < requestedTA + 0.1)));
   }
+
 
   // Called once the command ends or is interrupted.
   @Override
