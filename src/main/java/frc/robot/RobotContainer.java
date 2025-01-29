@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import frc.robot.Autons.RedCenterProcessorAuton;
-import frc.robot.Autons.RedRightCoralAuton;
+import frc.robot.Autons.BlueCenterProcessorAuton;
+import frc.robot.Autons.BlueRightCoralAuton;
 import frc.robot.Autons.TestingOdometry;
 import frc.robot.commands.Drive.AlignToReef;
 import frc.robot.commands.Drive.CycleDriveModeCommand;
@@ -85,8 +85,8 @@ public class RobotContainer {
     configureBindings();
 
     // Set auto chooser stuff
-    autoChooser.setDefaultOption("Red Center Processor", new RedCenterProcessorAuton(m_driveSubsystem));
-    autoChooser.addOption("Red Right Coral", new RedRightCoralAuton(m_driveSubsystem));
+    autoChooser.setDefaultOption("Blue Center Processor", new BlueCenterProcessorAuton(m_driveSubsystem));
+    autoChooser.addOption("Blue Right Coral", new BlueRightCoralAuton(m_driveSubsystem));
     autoChooser.addOption("Odometry test", new TestingOdometry(m_driveSubsystem));
 
     // Put auto chooser on dashboard

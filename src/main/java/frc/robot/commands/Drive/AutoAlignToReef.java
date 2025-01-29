@@ -27,8 +27,6 @@ public class AutoAlignToReef extends Command {
   double driveSpeed;
   String targetLimelightName;
 
-  boolean isReversed;
-
   /**
    * ID == Index
    * Ex. for ID 1, get rotations[1]
@@ -84,12 +82,11 @@ public class AutoAlignToReef extends Command {
   }
 
   /** Creates a new AutoAlignToReef. */
-  public AutoAlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment, double targetArea, String limelightName, double speed, boolean reverse) {
+  public AutoAlignToReef(DriveSubsystem _driveSubsystem, EReefAlignment _reefAlignment, double targetArea, String limelightName, double speed) {
     driveSubsystem = _driveSubsystem;
     reefAlignment = _reefAlignment;
     driveSpeed = speed;
     targetLimelightName = "limelight-" + limelightName;
-    isReversed = reverse;
     requestedTA = targetArea;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -124,7 +121,7 @@ public class AutoAlignToReef extends Command {
       speed = 0;
     }
 
-    if (isReversed) {
+    if (targetLimelightName.equals("limelight-back")) {
       speed *= -1;
     }
 
